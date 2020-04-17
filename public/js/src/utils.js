@@ -6,7 +6,7 @@ function addShape(pts) {
         s.lineTo(p.x, p.y);
     }
     s.autoClose = true;
-    var height=pts[0].z+1;
+    var height=parseFloat(document.getElementById("ht_num_slider").value)/20;
     var e = {
         steps: 2,
         depth: height,

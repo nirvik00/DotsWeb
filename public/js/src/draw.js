@@ -2,11 +2,9 @@ function generatePolys(configPolys){
     for(var i=0; i<configPolys.length-1; i++){
         var poly=configPolys[i];
         var coorLi=[];
-        //console.log("=------=");
         for(var j=0; j<poly.length; j++){
             var pt=poly[j];
             var sc=1;           
-            //console.log(pt.x,pt.y,pt.z);
             var coor={'x': pt.x, 'y': pt.y, 'z': pt.z};
             coorLi.push(coor);
             var g=new THREE.SphereGeometry(0.05,12,12);
