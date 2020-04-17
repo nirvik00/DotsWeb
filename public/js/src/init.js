@@ -7,7 +7,7 @@ function init3d() {
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     camera.position.set(10, 0, 10);
     renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth*0.75, window.innerHeight*0.75);
     div3d.appendChild(renderer.domElement);
     document.body.appendChild(div3d);
     controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -42,13 +42,16 @@ function clear() {
 function draw() {
     if(CONFIG_POLYS.length>0){
         var db_entry = parseInt(document.getElementById("db_entry_num_slider").value);
+        document.getElementById("dbEntry").innerHTML = "DB Entry to display " + db_entry + " out of " + CONFIG_POLYS.length;
+        document.getElementById("infoP").innerHTML = "DB RESULTS: "+ CONFIG_POLYS.length;
         console.log(db_entry);
         if(db_entry>CONFIG_POLYS.length-1){
             db_entry=0;
         }
         generatePolys(CONFIG_POLYS[db_entry]); // in draw 
+    }else{
+        document.getElementById("infoP").innerHTML = "PLEASE REFRESH the page... no results retrieved from DB";
     }
-
     meshArr.forEach(node=>{
         scene.add(node);
     })
@@ -57,7 +60,7 @@ function draw() {
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth*0.75, window.innerHeight*0.75);
 }
 
 

@@ -7,6 +7,7 @@ function addShape(pts) {
     }
     s.autoClose = true;
     var height=parseFloat(document.getElementById("ht_num_slider").value)/20;
+    document.getElementById("Space_ht").innerHTML = "Height of Spaces: " + height;
     var e = {
         steps: 2,
         depth: height,

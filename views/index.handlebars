@@ -40,9 +40,9 @@
         CONFIG_POLYS.push(poly2);
     }
     if(CONFIG_POLYS.length>0){
-        console.log("TRUE: polys retrieved from db");
+        document.getElementById("infoP").innerHTML = "PLEASE REFRESH... no results retrieved from DB"
     }else{
-        console.log("FALSE: polys retrieved from db");
+        document.getElementById("infoP").innerHTML = "TOTAL DB RESULTS "+ CONFIG_POLYS.length;
     }
 </script>
 
