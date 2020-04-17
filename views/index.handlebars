@@ -1,32 +1,52 @@
-<script>
-    var decodedJson = decodeURIComponent("{{{encodedJson}}}");
-    var jsonObj = JSON.parse(decodedJson);
-    for(var i=0; i<jsonObj.length; i++){
-        var polyArr=jsonObj[i].poly.split("/");
-        polyArr.forEach(poly=>{
-            var ptArr=poly.split(";");
-            ptArr.forEach(pt=>{
-                console.log(pt);
-            });
-        });
-    };
-    // console.log(jsonObj)
+<script src="/public/js/src/init.js"></script>
+<script src="/public/js/src/draw.js"></script>
+<script src="/public/js/src/utils.js"></script>
 
-</script>
 
 <div id="div"></div>
 
 <script>
     var div3d = document.getElementById("div");
     var scene, camera, controls, light, renderer;
+    var CONFIG_POLYS=[];
     var meshArr = [];
+    var DB_ENTRY=0;
 </script>
 
 
-<script src="/public/js/src/init.js"></script>
-<script src="/public/js/src/draw.js"></script>
-<script src="/public/js/src/utils.js"></script>
+<script>
+    CONFIG_POLYS=[];
+    var decodedJson = decodeURIComponent("{{{encodedJson}}}");
+    var jsonObj = JSON.parse(decodedJson);
+    for(var i=0; i<jsonObj.length; i++){
+        var polyArr=jsonObj[i].poly.split("/");
+        var poly2=[];
+        polyArr.forEach(poly=>{
+            var ptArr=poly.split(";");
+            var pts=[];
+            ptArr.forEach(pt=>{
+                // console.log(pt);
+                let x=parseFloat(pt.split(",")[0]);
+                let y=parseFloat(pt.split(",")[1]);
+                let z=parseFloat(pt.split(",")[2]);
+                if(isNaN(x) == false && isNaN(y) == false && isNaN(z) == false){
+                    let coor={'x':x, 'y':y, 'z':z};
+                    pts.push(coor);
+                }
+            });
+            poly2.push(pts);
+        });
+        CONFIG_POLYS.push(poly2);
+    }
+    if(CONFIG_POLYS.length>0){
+        console.log("TRUE: polys retrieved from db");
+    }else{
+        console.log("FALSE: polys retrieved from db");
+    }
+</script>
+
 
 <script>
     init3d();
+    // setInterval(animationLoop, 100);
 </script>

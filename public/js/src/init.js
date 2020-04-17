@@ -1,18 +1,18 @@
 function init3d() {
     div3d = document.createElement("div");
     scene = new THREE.Scene();
-    scene.background=new THREE.Color("rgb(255,155,255)");
+    scene.background=new THREE.Color("rgb(0,0,0)");
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
     camera.up = new THREE.Vector3(0, 0, 1);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
-    camera.position.set(200, 0, 200);
+    camera.position.set(10, 0, 10);
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     div3d.appendChild(renderer.domElement);
     document.body.appendChild(div3d);
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.addEventListener("change", render);
-    var axes = new THREE.AxesHelper(51);
+    var axes = new THREE.AxesHelper(1);
     scene.add(axes);
     var l = new THREE.PointLight(0xffffff, 1, 100);
     l.position.set(0, 0, 50);
@@ -22,9 +22,13 @@ function init3d() {
     scene.add(l3);
     scene.add(l);
     scene.add(l2);
+
     animationLoop();
 }
 
+function updateVals() {
+    animationLoop();
+}
 function clear() {
     meshArr.forEach(node => {
         node.geometry.dispose();
@@ -36,9 +40,18 @@ function clear() {
 }
 
 function draw() {
-    meshArr.forEach(node => {
+    if(CONFIG_POLYS.length>0){
+        var db_entry = parseInt(document.getElementById("db_entry_num_slider").value);
+        console.log(db_entry);
+        if(db_entry>CONFIG_POLYS.length-1){
+            db_entry=0;
+        }
+        generatePolys(CONFIG_POLYS[db_entry]); // in draw 
+    }
+
+    meshArr.forEach(node=>{
         scene.add(node);
-    });
+    })
 }
 
 function onWindowResize() {
@@ -50,6 +63,7 @@ function onWindowResize() {
 
 function animationLoop() {
     clear();
+    draw();
     onWindowResize();
     render();
 }
