@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
 const Schema=mongoose.Schema;
 
-const ConfigSchema= new Schema({
+const DotsGHSchema= new Schema({
     UserName:{
+        type: String,
+        required:true
+    },
+    ModelName:{
         type: String,
         required:true
     },
@@ -12,4 +16,4 @@ const ConfigSchema= new Schema({
     }
 });
 
-mongoose.model('ConfigModel', ConfigSchema);
+mongoose.model("DotsGH", DotsGHSchema);

@@ -4,21 +4,17 @@ const mongoose=require('mongoose');
 const mongodb = require('mongodb');
 const app=express();
 
+app.use('/public', express.static('public'));
+
+
 // connect to mongodb
+var dbData=[];
+var uri="mongodb://dotsUser:dotsUser07@ds215388.mlab.com:15388/dots";
 
 
-  var dbData=[];
-  var uri="mongodb://dotsUser:dotsUser07@ds215388.mlab.com:15388/dots";
-  mongodb.MongoClient.connect(uri, function(err, client){
-    if(err) throw err;
-    let db= client.db("dots");
-    let collx=db.collection("DotsGH");
-    let entry=collx.find({});
-    entry.forEach(en=>{
-      console.log(en);
-      dbData.push(en);
-    });
-  });
+// load the model
+require("./models/DotsGH");
+var dotsModel=mongoose.model("DotsGH");
 
 
 // middleware: express-handlebars
@@ -27,13 +23,33 @@ app.engine('handlebars', exhbs({
 }));
 app.set('view engine', 'handlebars');
 
+function GetData(){
+  var dbdata=[];
+  mongodb.MongoClient.connect(uri, function(err, client){
+    if(err) throw err;
+    dbData=[];
+    let db= client.db("dots");
+    let collx=db.collection("DotsGH");
+    let entry=collx.find({});
+    entry.forEach(en=>{
+      let data={"id": en._id, "user": en.UserName, "model": en.ModelName, "poly": en.PolyArrInStr};
+      dbData.push(data);
+    });
+  });
+  return dbData;
+}
+
 // index route
 app.get('/',(req, res)=>{
-  //var dbData = getDataFromDB();
-  console.log("\n\n\n-----------------\n\n\n");
-  var jsonData=JSON.stringify(dbData);
-  console.log(jsonData);
-  res.render('index', {data: encodeURIComponent(jsonData)});
+  var dbData=GetData();  
+  // console.log(dbData);
+  // var jsonData=JSON.stringify(dbdata);
+  // console.log(dbData);
+  console.log(dbData.length);
+  res.render('index', {
+    encodedJson : encodeURIComponent(JSON.stringify(dbData))
+  });
+
 });
 
 
