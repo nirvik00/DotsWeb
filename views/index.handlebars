@@ -1,0 +1,10 @@
+<h1>Hello dots</h1>
+
+<script>
+    var decodedJson=decodeURIComponent("{{{data}}}");
+    var jsonObj=JSON.parse(decodedJson);
+    jsonObj.forEach(obj=>{
+        console.log(obj);
+    });
+    
+</script>;
