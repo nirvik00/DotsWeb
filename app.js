@@ -11,18 +11,14 @@ const app=express();
   var uri="mongodb://dotsUser:dotsUser07@ds215388.mlab.com:15388/dots";
   mongodb.MongoClient.connect(uri, function(err, client){
     if(err) throw err;
-    let db= client.db('dots');
-    let collx=db.collection('DotsGH');
+    let db= client.db("dots");
+    let collx=db.collection("DotsGH");
     let entry=collx.find({});
     entry.forEach(en=>{
       console.log(en);
       dbData.push(en);
     });
   });
-
-  
-  DotsGH 
-
 
 
 // middleware: express-handlebars
