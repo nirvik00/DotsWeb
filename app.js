@@ -13,7 +13,7 @@ var uri="mongodb://dotsUser:dotsUser07@ds215388.mlab.com:15388/dots";
 
 mongoose.Promise=global.Promise;
 if(process.env.NODE_ENV === 'production'){
-  mongoose.connect(uri)
+  mongoose.connect(uri, {useUnifiedTopology: true})
   .then(()=> console.log('Mongo DB connected...'))
   .catch(err => console.log(err));
 }else{
@@ -63,7 +63,7 @@ app.get('/',(req, res)=>{
 });
 
 
-const port=5000;
+const port=  process.env.PORT || 5000;
 app.listen(port, ()=>{
     console.log('server listening on port: '+ port);
 });
