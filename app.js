@@ -11,6 +11,16 @@ app.use('/public', express.static('public'));
 var dbData=[];
 var uri="mongodb://dotsUser:dotsUser07@ds215388.mlab.com:15388/dots";
 
+mongoose.Promise=global.Promise;
+if(process.env.NODE_ENV === 'production'){
+  mongoose.connect(uri)
+  .then(()=> console.log('Mongo DB connected...'))
+  .catch(err => console.log(err));
+}else{
+  mongoose.connect(uri)
+  .then(()=> console.log('Mongo DB connected...'))
+  .catch(err => console.log(err));
+}
 
 // load the model
 require("./models/DotsGH");
