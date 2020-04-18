@@ -8,6 +8,7 @@
 <script>
     var div3d = document.getElementById("div");
     var scene, camera, controls, light, renderer;
+    var NUMBER_CONFIGS=0;
     var CONFIG_POLYS=[];
     var meshArr = [];
     var DB_ENTRY=0;
@@ -21,6 +22,7 @@
     var jsonObj = JSON.parse(decodedJson);
     for(var i=0; i<jsonObj.length; i++){
         var polyArr=jsonObj[i].poly.split("/");
+        NUMBER_CONFIGS=polyArr.Length;
         var poly2=[];
         polyArr.forEach(poly=>{
             var ptArr=poly.split(";");
@@ -39,6 +41,18 @@
         });
         CONFIG_POLYS.push(poly2);
     }
+    NUMBER_CONFIGS = CONFIG_POLYS.length ;
+    console.log(CONFIG_POLYS.length +", "+ NUMBER_CONFIGS);
+
+    var slider = document.getElementById ("db_entry_num_slider");
+    if ('max' in slider) {  // Google Chrome, Safari from version 5 and Opera
+        slider.max = NUMBER_CONFIGS;
+    } else {
+            // Safari before version 5
+        slider.setAttribute ("max", NUMBER_CONFIGS);
+    }
+
+    document.getElementById("db_entry_num_slider").max=CONFIG_POLYS.Length+"";
     if(CONFIG_POLYS.length>0){
         document.getElementById("infoP").innerHTML = "PLEASE REFRESH... no results retrieved from DB"
     }else{

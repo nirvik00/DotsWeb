@@ -27,6 +27,18 @@ function init3d() {
 }
 
 function updateVals() {
+    // document.getElementById("db_entry_num_slider").max=CONFIG_POLYS.Length+"";
+
+    var slider = document.getElementById ("db_entry_num_slider");
+
+    if ('max' in slider) {  // Google Chrome, Safari from version 5 and Opera
+        slider.max = NUMBER_CONFIGS;
+    } else {
+            // Safari before version 5
+        slider.setAttribute ("max", NUMBER_CONFIGS);
+    }
+
+
     animationLoop();
 }
 function clear() {
