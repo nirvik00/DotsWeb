@@ -59,7 +59,7 @@ app.get('/',(req, res)=>{
   var dbData=GetData();  
   var date = new Date();
   var ip = req.clientIp;
-  console.log(ip);
+  console.log("ip" + ip);
 
   console.log(dbData.length + "," + date);
   res.render('index', {
