@@ -4,7 +4,12 @@ const mongoose=require('mongoose');
 const mongodb = require('mongodb');
 const app=express();
 
+const requestIp = require('request-ip');
+
 app.use('/public', express.static('public'));
+
+// inside middleware handler
+app.use(requestIp.mw())
 
 
 // connect to mongodb
@@ -13,13 +18,13 @@ var uri="mongodb://dotsUser:dotsUser07@ds215388.mlab.com:15388/dots";
 
 mongoose.Promise=global.Promise;
 if(process.env.NODE_ENV === 'production'){
-  mongoose.connect(uri, {useUnifiedTopology: true})
+  mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true })
   .then(()=> console.log('Mongo DB connected...'))
-  .catch(err => console.log(err));
+  .catch(err => console.log("null"));
 }else{
-  mongoose.connect(uri)
+  mongoose.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true })
   .then(()=> console.log('Mongo DB connected...'))
-  .catch(err => console.log(err));
+  .catch(err => console.log("null"));
 }
 
 // load the model
@@ -35,7 +40,7 @@ app.set('view engine', 'handlebars');
 
 function GetData(){
   var dbdata=[];
-  mongodb.MongoClient.connect(uri, function(err, client){
+  mongodb.MongoClient.connect(uri, {useUnifiedTopology: true, useNewUrlParser: true }, function(err, client){
     if(err) throw err;
     dbData=[];
     let db= client.db("dots");
@@ -52,10 +57,11 @@ function GetData(){
 // index route
 app.get('/',(req, res)=>{
   var dbData=GetData();  
-  // console.log(dbData);
-  // var jsonData=JSON.stringify(dbdata);
-  // console.log(dbData);
-  console.log(dbData.length);
+  var date = new Date();
+  var ip = req.clientIp;
+  console.log(ip);
+
+  console.log(dbData.length + "," + date);
   res.render('index', {
     encodedJson : encodeURIComponent(JSON.stringify(dbData))
   });
